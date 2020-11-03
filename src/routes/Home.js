@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { dbService } from "fb";
+import React, { useState, useEffect } from 'react';
+import { dbService } from 'fb';
+import Nweet from 'components/Nweet';
 
 const Home = ({ userObj }) => {
-  const [nweet, setNweet] = useState("");
+  const [nweet, setNweet] = useState('');
   const [nweets, setNweets] = useState([]);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    await dbService.collection("nweets").add({
+    await dbService.collection('nweets').add({
       text: nweet,
       createdAt: Date.now(),
       author: userObj.uid,
     });
-    setNweet("");
+    setNweet('');
   };
 
   const onChange = (event) => {
@@ -23,7 +24,7 @@ const Home = ({ userObj }) => {
   };
 
   useEffect(() => {
-    dbService.collection("nweets").onSnapshot((snapshot) => {
+    dbService.collection('nweets').onSnapshot((snapshot) => {
       const nweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -46,9 +47,11 @@ const Home = ({ userObj }) => {
       </form>
       <div>
         {nweets.map((nweet) => (
-          <div key={nweet.id}>
-            <h4>{nweet.text}</h4>
-          </div>
+          <Nweet
+            key={nweet.id}
+            nweetObj={nweet}
+            isAuthor={nweet.author === userObj.uid}
+          />
         ))}
       </div>
     </div>
