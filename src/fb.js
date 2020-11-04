@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
-import firebaseApp from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import firebaseApp from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -18,3 +19,4 @@ firebaseApp.initializeApp(firebaseConfig);
 export const firebaseInstance = firebaseApp;
 export const authService = firebaseApp.auth();
 export const dbService = firebaseApp.firestore();
+export const storageService = firebaseApp.storage();

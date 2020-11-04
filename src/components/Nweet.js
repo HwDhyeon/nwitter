@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { dbService } from 'fb';
+import { dbService, storageService } from 'fb';
 
 const Nweet = ({ nweetObj, isAuthor }) => {
   const [editing, setEditing] = useState(false);
@@ -9,6 +9,7 @@ const Nweet = ({ nweetObj, isAuthor }) => {
     const ok = window.confirm('Are you sure want to delete this nweet?');
     if (ok) {
       await dbService.doc(`nweets/${nweetObj.id}`).delete();
+      await storageService.refFromURL(nweetObj.attatchmentUrl).delete();
     }
   };
 
@@ -48,6 +49,9 @@ const Nweet = ({ nweetObj, isAuthor }) => {
       ) : (
         <>
           <h4>{nweetObj.text}</h4>
+          {nweetObj.attatchmentUrl && (
+            <img src={nweetObj.attatchmentUrl} width="50px" height="50px" />
+          )}
           {isAuthor && (
             <>
               <button onClick={onDeleteClick}>Delete Button</button>
